@@ -1,13 +1,17 @@
 package com.konstantin.spring.springboot.spring_data_jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
+
 
 @Entity
+@Getter
+@Setter
+@ToString
+@Accessors(chain = true)
+@RequiredArgsConstructor
 @Table(name = "employees")
-@Data
-@NoArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +30,18 @@ public class Employee {
     @Column(name = "salary")
     private int salary;
 
-    public Employee(String name, String surname, String department, int salary) {
-        this.name = name;
-        this.surname = surname;
-        this.department = department;
-        this.salary = salary;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employee employee = (Employee) o;
+
+        return id == employee.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
